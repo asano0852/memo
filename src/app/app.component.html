@@ -1,0 +1,9 @@
+
+<div>hoge</div>
+
+<div *ngFor="let memo of memo_list"><span>{{memo.title}}</span> <span><button (click)="onDelete(memo._id)">削除</button><button (click)="onUpdate(memo._id)">更新</button>{{memo._id}}</span></div>
+
+
+<form>
+  <button (click)="onCreate()">作成</button>
+</form>
