@@ -1,7 +1,39 @@
 
-<div>hoge</div>
+<mat-toolbar>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>My App</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>share</mat-icon>
+  </button>
+</mat-toolbar>
 
-<div *ngFor="let memo of memo_list"><span>{{memo.title}}</span> <span><button (click)="onDelete(memo._id)">削除</button><button (click)="onUpdate(memo._id)">更新</button>{{memo._id}}</span></div>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p>Auto-resizing sidenav</p>
+    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+    <button (click)="showFiller = !showFiller" mat-raised-button>
+      Toggle extra text
+    </button>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <button type="button" mat-button (click)="drawer.toggle()">
+      Toggle sidenav
+    </button>
+
+    <div fxLayout="column" fxLayoutAlign="space-between">
+      <div *ngFor="let memo of memo_list"><span>{{memo.title}}</span> <span><button (click)="onDelete(memo._id)">削除</button><button (click)="onUpdate(memo._id)">更新</button>{{memo._id}}</span></div>
+    </div>
+  </div>
+
+</mat-drawer-container>
+
 
 
 <form>

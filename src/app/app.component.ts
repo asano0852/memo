@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   public list: string[] = [];
   public loggedIn = false;
   public memo_list: any[] = [];
+  showFiller = false;
 
   constructor(public memo: MemoService) {
   }
@@ -61,9 +62,5 @@ export class AppComponent implements OnInit {
       })
     })
   }
-
-
-
-
 
 }
