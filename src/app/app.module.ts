@@ -14,10 +14,13 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
+import { DialogPageComponent } from './dialogpage/dialogpage.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DialogPageComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import {MatButtonModule} from "@angular/material/button";
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [MemoService],
   bootstrap: [AppComponent]

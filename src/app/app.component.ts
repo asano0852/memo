@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MemoService} from "./memo.service";
+import {MatDialog} from '@angular/material/dialog';
+import {DialogPageComponent} from "./dialogpage/dialogpage.component";
 
 @Component({
   selector: 'app-root',
@@ -7,67 +9,55 @@ import {MemoService} from "./memo.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public title = 'sample6';
-  public list: string[] = [];
-  public loggedIn = false;
   public memo_list: any[] = [];
-  showFiller = false;
 
-  constructor(public memo: MemoService) {
+  constructor(public memo: MemoService, public dialog: MatDialog) {
   }
-
-
-  public onClick(hello: string) {
-    this.title = hello;
-
-    this.list.push("a");
-
-    this.loggedIn = !this.loggedIn;
-  }
-
+  
   public ngOnInit() {
-
-    this.memo.get('魔王2', (error, result) => {
-      this.memo_list = result;
-    })
-
+    this.draw();
   }
 
-  public onDelete(id: string):void {
-    this.memo.delete(id, (error, result) => {
-      this.memo.get('魔王2', (error, result) => {
-        this.memo_list = result;
-      })
+  private draw() {
+    this.memo.get('1', (error, result) => {
+      this.memo_list = result;
     })
   }
 
   public onCreate(): void {
-    const new_record = {
-      title: 'ここに記入',
-      desc: '魔王2',
-      url: '魔王3'
-    }
 
-    this.memo.create(new_record, (error, result) => {
-      this.memo.get('魔王2', (error, result) => {
-        this.memo_list = result;
+    const dialogRef = this.dialog.open(DialogPageComponent, {
+      width: '250px',
+      data: {type: "1", title: "", desc: "", url: ""}
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.memo.create(result, (error, result) => {
+        this.draw();
       })
-    })
+    });
   }
 
-  public onUpdate(id: string):void {
-    this.memo.update(id, {title:"ここに記入"},(error, result) => {
-      this.memo.get('魔王2', (error, result) => {
-        this.memo_list = result;
+  public onUpdate(memo: any): void {
+
+    const dialogRef = this.dialog.open(DialogPageComponent, {
+      width: '250px',
+      data: memo
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.memo.update(memo._id, result, (error, result) => {
+        this.draw();
       })
-    })
+    });
   }
 
-  public onUpdate2(memo: any) {
-        this.memo.update(memo._id, {title:memo.title},(error, result) => {
-      this.memo.get('魔王2', (error, result) => {
-        this.memo_list = result;
-      })
+  public onDelete(memo: any): void {
+    this.memo.delete(memo._id, (error, result) => {
+      this.draw();
     })
   }
 }
+
+
+
