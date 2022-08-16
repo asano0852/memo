@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
 
   public onCreate(): void {
     const new_record = {
-      title: '魔王',
+      title: 'ここに記入',
       desc: '魔王2',
       url: '魔王3'
     }
@@ -56,11 +56,18 @@ export class AppComponent implements OnInit {
   }
 
   public onUpdate(id: string):void {
-    this.memo.update(id, {title:"勇者"},(error, result) => {
+    this.memo.update(id, {title:"ここに記入"},(error, result) => {
       this.memo.get('魔王2', (error, result) => {
         this.memo_list = result;
       })
     })
   }
 
+  public onUpdate2(memo: any) {
+        this.memo.update(memo._id, {title:memo.title},(error, result) => {
+      this.memo.get('魔王2', (error, result) => {
+        this.memo_list = result;
+      })
+    })
+  }
 }
