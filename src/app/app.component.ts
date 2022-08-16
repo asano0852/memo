@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   constructor(public memo: MemoService, public dialog: MatDialog) {
   }
-  
+
   public ngOnInit() {
     this.draw();
   }

@@ -1,0 +1,29 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+  <p>memo</p>
+
+  <mat-form-field appearance="fill">
+    <mat-label>type</mat-label>
+    <input matInput [(ngModel)]="data.type">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>title</mat-label>
+    <input matInput [(ngModel)]="data.title">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>description</mat-label>
+    <input matInput [(ngModel)]="data.desc">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>url</mat-label>
+    <input matInput [(ngModel)]="data.url">
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>
