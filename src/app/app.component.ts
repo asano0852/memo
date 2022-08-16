@@ -10,6 +10,7 @@ import {DialogPageComponent} from "./dialogpage/dialogpage.component";
 })
 export class AppComponent implements OnInit {
   public memo_list: any[] = [];
+  public  showFiller:boolean = false;
 
   constructor(public memo: MemoService, public dialog: MatDialog) {
   }
