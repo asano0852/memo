@@ -6,7 +6,8 @@
   <span>My App</span>
   <span class="example-spacer"></span>
 
-  <button mat-icon-button (click)="onCreate()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+  <button mat-icon-button (click)="onCreate()" class="example-icon favorite-icon"
+          aria-label="Example icon-button with heart icon">
     <mat-icon>add_box</mat-icon>
   </button>
 
@@ -19,6 +20,14 @@
     <button (click)="showFiller = !showFiller" mat-raised-button>
       Toggle extra text
     </button>
+
+    <mat-form-field appearance="fill">
+      <mat-label>title</mat-label>
+      <input matInput [(ngModel)]="title">   <!--[(ngModel)]　angularで使われる[()]に入っているもののデータの受け渡しができる(双方向バインディング)  -->
+    </mat-form-field>
+    <button (click)="onFind()">Find</button>
+
+
   </mat-drawer>
 
   <div class="example-sidenav-content">

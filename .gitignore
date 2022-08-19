@@ -43,3 +43,5 @@ Thumbs.db
 *.js
 *.map
 /public/*
+/note.ts
+/compornent_note.ts

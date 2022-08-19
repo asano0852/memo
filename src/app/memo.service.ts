@@ -1,18 +1,24 @@
+//@〜はTypescriptにない機能を表現している
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from '@angular/core';
 
-@Injectable({
+//serviceはシステムに一つあればいい@InjectableはAngularのこと
+@Injectable({　　//serviceの中身。providedIn:'root'はおまじないみたいなもの(デフォルトで書かれている)
   providedIn: 'root'
 })
 
-export class MemoService {
+export class MemoService {   //exportすると他のファイルから見えるようになる
 
-  constructor(public http: HttpClient) {
-
+  constructor(public http: HttpClient) {  //HttpClientはクラス(設計図)でhttp:HttpClientとすることでインスタンスにして
+　　　　　　　　　　　　　　　　　　　　　　　　　//使用できるようにする
+    　　　　　　　　　　　　　　　　　　　　　　　//constructorはnewしたときに初めに読み取られるもの
+    　　　　　　　　　　　　　　　　　　　　　　　//中に何もなければ読み取るものがない
   }
 
-  public get(list: string, callback: (error: any, result: any) => void): void {
-    this.http.get("/memo/list/" + list).subscribe((result: any) => {
+  public get(type: any, callback: (error: any, result: any) => void): void {
+    const type_string = JSON.stringify(type);   //stringして
+    const type_string_encoded = encodeURIComponent(type_string);
+    this.http.get("/memo/list/" + type_string_encoded).subscribe((result: any) => {
       callback(null, result);
     })
   }

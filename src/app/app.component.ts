@@ -10,19 +10,21 @@ import {DialogPageComponent} from "./dialogpage/dialogpage.component";
 })
 export class AppComponent implements OnInit {
   public memo_list: any[] = [];
-  public  showFiller:boolean = false;
+  public showFiller: boolean = false;
+  public title: string = "hoge";
 
   constructor(public memo: MemoService, public dialog: MatDialog) {
   }
 
-  public ngOnInit() {
-    this.draw();
-  }
 
   private draw() {
-    this.memo.get('1', (error, result) => {
+    this.memo.get({title: this.title}, (error, result) => {
       this.memo_list = result;
     })
+  }
+
+  public ngOnInit() {
+    this.draw();
   }
 
   public onCreate(): void {
@@ -53,12 +55,16 @@ export class AppComponent implements OnInit {
     });
   }
 
+
   public onDelete(memo: any): void {
     this.memo.delete(memo._id, (error, result) => {
       this.draw();
     })
   }
+
+  public onFind() {
+    this.memo.get({title: this.title}, (error, result) => {
+      this.memo_list = result;
+    })
+  }
 }
-
-
-
