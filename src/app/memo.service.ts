@@ -16,7 +16,7 @@ export class MemoService {   //exportすると他のファイルから見える�
   }
 
   public get(type: any, callback: (error: any, result: any) => void): void {
-    const type_string = JSON.stringify(type);   //JavaScript のオブジェクトや値を JSON 文字列に変換　
+    const type_string = JSON.stringify(type);   //JavaScript のオブジェクトや値を JSON 文字列に変換する。
     const type_string_encoded = encodeURIComponent(type_string);
     this.http.get("/memo/list/" + type_string_encoded).subscribe((result: any) => {
       callback(null, result);
