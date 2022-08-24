@@ -7,9 +7,9 @@ const controller = new memoController();
 //MongoDB上からデータを受け取る
 //　.get('/', function (req, res)の形
 router.get('/memo/list/:query',//
-  (req: any, res: any, next: any) => { //request 受ける側　response返す側
+  (req: any, res: any) => { //request 受ける側　response返す側
     const encoded_query_string = req.params.query; //req.paramsでqueryの値を取得する
-    const query_string = decodeURIComponent(encoded_query_string); //
+    const query_string = decodeURIComponent(encoded_query_string); 　//デコード：エンコードしたものを元に戻す
     const query = JSON.parse(query_string);
     controller.find(query, (error: any, result: any) => {
       res.json(result);

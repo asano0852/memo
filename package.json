@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "build-s": "tsc app.ts routes/*.ts --sourceMap",
     "build-c": "ng build --source-map",
-    "build-all": "ng build && tsc app.ts routes/*.ts",
+    "build-all": "ng build --source-map && tsc app.ts routes/*.ts --sourceMap",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
