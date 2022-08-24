@@ -1,22 +1,21 @@
 
-var mongoose = require('mongoose'); //mongooseを呼び出すアクション(require('mongoose'))をmongooseでまとめる
-var Schema = mongoose.Schema; //mongooseのschemaを呼び出すアクション(mongoose.Schema)をSchemaでまとめる
+const mongoose = require('mongoose'); //mongooseを呼び出すアクション(require('mongoose'))をmongooseでまとめる
+const Schema = mongoose.Schema;    //Schemaはどのようなデータを格納するのかの定義const a = new mongoose.Schema({ name: String, age: Number });　で定義する
+                                  //mongooseのschemaを呼び出すアクション(mongoose.Schema)をSchemaでまとめる
 
 // スキーマ
 
-var MemoScheme = new Schema({     //SchemaからMemoSchemeのインスタンスを作成する
-  title: String, //StringのSが大文字なのはmongooseの方定義の仕方　typescriptではない
-  desc: String,
+const MemoScheme = new Schema({  //SchemaからMemoSchemeのインスタンスを作成する
+  title: String, //各項目に入る型を指定する
+  desc: String, //StringのSが大文字なのはmongooseの型定義の仕方　typescriptではない
   url: String
 });
 
 mongoose.connect('mongodb://localhost/memo');  //mongooseのライブラリーを使用してmongodbのmemoに接続する
-let Memo = mongoose.model('memo', MemoScheme);  //Mongodb上のmemoの中にmemosのコレクションとしてMemoSchemaを作成するそれを
-                                                //Memoとして定義する。
+let Memo = mongoose.model('memo', MemoScheme);  //Mongodb上のmemoの中にmemosのコレクションとしてMemoSchemaを作成する。それをMemoとして定義する。
+                                                //ここのmemoはMongodb上のmemos(コレクション)
 
 
-
-//ここのmemoはMongodb上のmemos(コレクション)
 class MemoController {
 
   public find(query: any, callback: (error: any, result: any) => void): void {
@@ -26,8 +25,8 @@ class MemoController {
   }
 
   public create(body: any, callback: () => void): void {
-    const newmemo = new Memo(body);
-    newmemo.save();
+    const newMemo = new Memo(body);
+    newMemo.save();
     callback()
   }
 

@@ -1,5 +1,5 @@
 var express = require('express');//expressを呼び出すアクション(require('express'))をexpressでまとめる
-var router = express.Router();  //expressのrouter get post 等を使用できるようにする
+var router = express.Router();  //expressのrouterにあるget post 等を使用できるようにする
 
 const memoController = require("./memo_controller")
 const controller = new memoController();

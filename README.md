@@ -220,3 +220,9 @@ console.log(aristteres);
 console.log(titileholder);
 
 ```
+
+```ts
+
+promise　抽象的な概念
+シンタックスシュガー
+難しいことを簡単にするためにラッピングする
