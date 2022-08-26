@@ -6,7 +6,7 @@
   <span>My App</span>
   <span class="example-spacer"></span>
 
-  <button mat-icon-button (click)="onCreate()" class="example-icon favorite-icon"
+  <button mat-icon-button (click)="onCreate()" class="example-icon favorite-icon"　
           aria-label="Example icon-button with heart icon">
     <mat-icon>add_box</mat-icon>
   </button>
@@ -16,31 +16,28 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
     <p>Auto-resizing sidenav</p>
-    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
-    <button (click)="showFiller = !showFiller" mat-raised-button>
+    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p><!--ダイアログの操作-->
+    <button (click)="showFiller = !showFiller" mat-raised-button> <!--ダイアログの操作-->
       Toggle extra text
     </button>
 
     <mat-form-field appearance="fill">
       <mat-label>title</mat-label>
-      <input matInput [(ngModel)]="title">   <!--[(ngModel)]　angularで使われる[()]に入っているもののデータの受け渡しができる(双方向バインディング)  -->
+      <input matInput [(ngModel)]="">   <!--[(ngModel)]　angularで使われる[()]に入っているもののデータの受け渡しができる(双方向バインディング)  -->
     </mat-form-field>
     <button (click)="onFind()">Find</button>
-
 
   </mat-drawer>
 
   <div class="example-sidenav-content">
-
     <div fxLayout="column" fxLayoutAlign="space-between">
       <div *ngFor="let memo of memo_list" fxLayout="row">
         <div>{{memo.title}}</div>
-        <button (click)="onUpdate(memo)">更新</button>
-        <button (click)="onDelete(memo)">削除</button>
+        <button (click)="onUpdate(memo)">更新</button><!--onUpdateがクリックされたらcomponent.tsのonUpdateにデータを渡す memoは引数-->
+        <button (click)="onDelete(memo)">削除</button><!--onDeleteがクリックされたらcomponent.tsのonUpdateにデータを渡す memoは引数-->
         <mat-checkbox class="example-margin">重要</mat-checkbox>
       </div>
     </div>
-
   </div>
 
 </mat-drawer-container>

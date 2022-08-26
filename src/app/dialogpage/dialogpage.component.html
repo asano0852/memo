@@ -2,6 +2,7 @@
 <div mat-dialog-content>
   <p>memo</p>
 
+  <!--[(ngModel)]はサーバーが更新されたらクライアントも更新される-->
   <mat-form-field appearance="fill">
     <mat-label>type</mat-label>
     <input matInput [(ngModel)]="data.type">
@@ -25,5 +26,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button> <!--dataに上４つのフィールドの値が入る→ダイアログページを閉じる-->
 </div>

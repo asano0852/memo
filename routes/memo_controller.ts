@@ -16,17 +16,18 @@ let Memo = mongoose.model('memo', MemoScheme);  //Mongodb上のmemoの中にmemo
                                                 //ここのmemoはMongodb上のmemos(コレクション)
 
 
-class MemoController {
+//memo_controller.tsはMongodbの機能をまとめたもの
+class MemoController {　//exportは不要　理由はcommon.jsの型だから
 
-  public find(query: any, callback: (error: any, result: any) => void): void {
-    Memo.find(query, (err: any, result: any) => { //Mongodb上のmemosから
-      callback(err, result)
+  public find(query: any, callback: (error: any, result: any[]) => void): void {
+    Memo.find(query, (err: any, results: any[]) => { //Mongodb上のmemosからリストデータを取る
+      callback(err, results)
     });
   }
 
-  public create(body: any, callback: () => void): void {
-    const newMemo = new Memo(body);
-    newMemo.save();
+  public create(body: any, callback: () => void): void {//新しいフィールドを作るからcreateする
+    const newMemo = new Memo(body); //Memo(MongoDBのmemosの所)のクラスをnewMemoでインスタンス化する
+    newMemo.save();　//newMemoに保存する
     callback()
   }
 
@@ -45,4 +46,4 @@ class MemoController {
 }
 
 
-module.exports = MemoController;
+module.exports = MemoController; //Common.js　外からはclass MemoControllerの部分だけ見えている
