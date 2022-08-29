@@ -1,7 +1,6 @@
-
 const mongoose = require('mongoose'); //mongooseを呼び出すアクション(require('mongoose'))をmongooseでまとめる
 const Schema = mongoose.Schema;    //Schemaはどのようなデータを格納するのかの定義const a = new mongoose.Schema({ name: String, age: Number });　で定義する
-                                  //mongooseのschemaを呼び出すアクション(mongoose.Schema)をSchemaでまとめる
+//mongooseのschemaを呼び出すアクション(mongoose.Schema)をSchemaでまとめる
 
 // スキーマ
 
@@ -19,28 +18,39 @@ let Memo = mongoose.model('memo', MemoScheme);  //Mongodb上のmemoの中にmemo
 //memo_controller.tsはMongodbの機能をまとめたもの
 class MemoController {　//exportは不要　理由はcommon.jsの型だから
 
-  public find(query: any, callback: (error: any, result: any[]) => void): void {
-    Memo.find(query, (err: any, results: any[]) => { //Mongodb上のmemosからリストデータを取る
-      callback(err, results)
-    });
+  public find(query: any, callback: (result: any) => void): void {
+    Memo.find(query).then((result: any) => { //Mongodb上のmemosからリストデータを取る
+      callback({status: {success: true}, data: result});
+    }).catch((error: any) => {
+      callback({status: {success: false, db: error, server: null, net: null, client: null}, data: null});
+    })
   }
 
-  public create(body: any, callback: () => void): void {//新しいフィールドを作るからcreateする
+  public create(body: any, callback: (result: any) => void): void {//新しいフィールドを作るからcreateする
     const newMemo = new Memo(body); //Memo(MongoDBのmemosの所)のクラスをnewMemoでインスタンス化する
-    newMemo.save();　//newMemoに保存する
-    callback()
-  }
-
-  public update(id: any, body: any, callback: (error: any, result: any) => void): void {
-    Memo.updateOne({_id: id}, body, (err: any, result: any) => {
-      callback(err, result);
+    newMemo.save((error: any, result: any) => {
+      if (!error) {
+        callback({status: {success: true}, data: result});
+      } else {
+        callback({status: {success: false, db: error, server: null, net: null, client: null}, data: null});
+      }
     });
   }
 
-  public delete(id: any, callback: (err: any, result: any) => void): void {
-    Memo.deleteOne({_id: id}, (err: any, result: any) => {
-      callback(err, result);
-    });
+  public update(id: any, body: any, callback: (result: any) => void): void {
+    Memo.updateOne({_id: id}, body).then((result: any) => {
+      callback({status: {success: true}, data: result});
+    }).catch((error: any) => {
+      callback({status: {success: false, db: error, server: null, net: null, client: null}, data: null});
+    })
+  }
+
+  public delete(id: any, callback: (result: any) => void): void {
+    Memo.deleteOne({_id: id}).then( (result: any) => {
+      callback({status: {success: true}, data: result});
+    }).catch((error: any) => {
+      callback({status: {success: false, db: error, server: null, net: null, client: null}, data: null});
+    })
   }
 
 }
