@@ -14,21 +14,34 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
   public memo_list: any[] = [];　//any[]は配列の型　number[]は数値の型　// = []は配列の初期化
   public showFiller: boolean = false; //angular materialのsidenavの仕組み
   public title: string = "";
+  public count:number = 0;
   private query: any = {};
-
+  private option: { skip: number, limit: number, sort: any } = {skip: 0, limit: 10, sort: {}};
   //constructorとngOnInitの違い constructorはTypescriptの言語である。ngOnInitは画面でありクライアントの画面が表示されたときに最初に実行するもの
-　//constructorの中に入れたらangularが自動的にnewしてくれるconstructor(public memo: MemoService) { const a = new memo}になっているのと同義
+  //constructorの中に入れたらangularが自動的にnewしてくれるconstructor(public memo: MemoService) { const a = new memo}になっているのと同義
   constructor(public memo: MemoService, public dialog: MatDialog) { //typescriptの言語 Newした時実行されるもの
   }
 
   private draw(): void {
-    this.memo.get(this.query, (result) => {
-      if (result.status.success) {////todo:successを見たときにtrueならこちらの値が返る trueの判定？
-        this.memo_list = result.data;//結果がserviceから渡ってくる上を見るとmemo_listは配列型になってるので数分表示される
-      } else {
-        this.onError(result.status);//todo:successがfalseの時はこちらの値が返る
-      }
-    })
+    try {
+
+      this.memo.count(this.query, (result) => {
+        if (result.status.success) {////todo:successを見たときにtrueならこちらの値が返る trueの判定？
+          this.count = result.data;
+          this.memo.get(this.query, this.option, (result) => {
+            if (result.status.success) {////todo:successを見たときにtrueならこちらの値が返る trueの判定？
+              this.memo_list = result.data;//結果がserviceから渡ってくる上を見るとmemo_listは配列型になってるので数分表示される
+            } else {
+              this.onError(result.status);//todo:successがfalseの時はこちらの値が返る
+            }
+          })
+        } else {
+          this.onError(result.status);//todo:successがfalseの時はこちらの値が返る
+        }
+      })
+    } catch (error) {
+      this.onError({success: false, db: null, server: null, net: null, client: error});
+    }
   }
 
   public ngOnInit() {　//ページが表示される時に動作する。今回はdrawを実行するから　8割型リストの初期化に用いられる　リスト型はdrawが多く使われる　//画面
@@ -47,58 +60,80 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
   }
 
   public onCreate(): void {
+    try {
+      const dialogRef = this.dialog.open(DialogPageComponent, {　//ダイアログがひらく
+        width: '250px',
+        data: {type: "1", title: "", price: "", url: ""}　//初期値
+      });
 
-    const dialogRef = this.dialog.open(DialogPageComponent, {　//ダイアログがひらく
-      width: '250px',
-      data: {type: "1", title: "", desc: "", url: ""}　//初期値
-    });
+      dialogRef.afterClosed().subscribe((result) => {　//ダイアログを閉じて以下を実行する
+        this.memo.create(result, (result) => {
+          if (result.status.success) {
+            this.draw();//リストにデータを追加する
+          } else {
+            this.onError(result.status);
+          }
+        })
+      });
+    } catch (error) {
+      this.onError({success: false, db: null, server: null, net: null, client: error});
+    }
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {　//ダイアログを閉じて以下を実行する
-      this.memo.create(result, (result) => {
+  public onUpdate(memo: any): void {
+    try {
+      this.memo.get({_id: memo._id}, {skip: 0, limit: 1, sort: {}}, (result: any) => {
         if (result.status.success) {
-          this.draw();//リストにデータを追加する
+          if (result.data.length === 1) {
+            const dialogRef = this.dialog.open(DialogPageComponent, {　//dialogがひらくdialog.htmlを確認する
+              width: '250px',
+              data: result.data[0]
+            });
+
+            dialogRef.afterClosed().subscribe((result) => {　//ダイアログを閉じて以下を実行する
+              this.memo.update(memo._id, result, (result) => {　//リストを取ってきてserviceにデータを渡す
+                this.draw();//データをgetしている
+              })
+            });
+          }
         } else {
           this.onError(result.status);
         }
       })
-    });
-  }
-
-  public onUpdate(memo: any): void {
-    this.memo.get({_id: memo._id}, (result:any) => {
-      if (result.status.success) {
-        if (result.data.length === 1) {
-          const dialogRef = this.dialog.open(DialogPageComponent, {　//dialogがひらくdialog.htmlを確認する
-            width: '250px',
-            data: result.data[0]
-          });
-
-          dialogRef.afterClosed().subscribe((result) => {　//ダイアログを閉じて以下を実行する
-            this.memo.update(memo._id, result, (result) => {　//リストを取ってきてserviceにデータを渡す
-              this.draw();//データをgetしている
-            })
-          });
-        } else {
-          // todo: error dialog
-          this.draw();//データをgetしている
-        }
-      } else {
-        this.onError(result.status);
-      }
-    })
+    } catch (error) {
+      this.onError({success: false, db: null, server: null, net: null, client: error});
+    }
   }
 
   public onDelete(memo: any): void {
-    this.memo.delete(memo._id, (result) => { //リストを取ってきてserviceにデータを渡す
-      if (result.status.success) {
-        this.draw();　//データをgetしている
-      } else {
-        this.onError(result.status);
-      }
-    })
+    try {
+      this.memo.delete(memo._id, (result) => { //リストを取ってきてserviceにデータを渡す
+        if (result.status.success) {
+          this.draw();　//データをgetしている
+        } else {
+          this.onError(result.status);
+        }
+      })
+    } catch (error) {
+      this.onError({success: false, db: null, server: null, net: null, client: error});
+    }
   }
 
   public onFind() {
     this.draw();　//サーバーから最新のデータを取ってくる
+  }
+
+  onNext() {
+    if ((this.option.skip + this.option.limit) < this.count) {
+      this.option.skip += this.option.limit;
+      this.draw();
+    }
+  }
+
+  onPrev() {
+    if ((this.option.skip - this.option.limit) >= 0) {
+      this.option.skip -= this.option.limit;
+      this.draw();
+    }
   }
 }

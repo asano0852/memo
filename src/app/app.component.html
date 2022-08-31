@@ -6,10 +6,10 @@
   <span>My App</span>
   <span class="example-spacer"></span>
 
-  <button mat-icon-button (click)="onCreate()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+  <button mat-icon-button (click)="onCreate()" class="example-icon favorite-icon"
+          aria-label="Example icon-button with heart icon">
     <mat-icon>add_box</mat-icon>
   </button>
-
 </mat-toolbar>
 
 <mat-drawer-container class="example-container" autosize>
@@ -28,18 +28,25 @@
 
   </mat-drawer>
 
-  <div class="example-sidenav-content">
-    <div fxLayout="column" fxLayoutAlign="space-between">
-      <div *ngFor="let memo of memo_list" fxLayout="row">
-        <div>{{memo.title}}</div>
-        <button (click)="onUpdate(memo)">更新</button><!--onUpdateがクリックされたらcomponent.tsのonUpdateにデータを渡す memoは引数-->
-        <button (click)="onDelete(memo)">削除</button><!--onDeleteがクリックされたらcomponent.tsのonUpdateにデータを渡す memoは引数-->
-        <mat-checkbox class="example-margin">重要</mat-checkbox>
-      </div>
+  <mat-card fxFill>
+    <div class="example-sidenav-content">
+      <mat-list fxLayout="column" fxLayoutAlign="space-between">
+        <mat-list-item *ngFor="let memo of memo_list" fxLayout="row">
+          <div>{{memo.title}}</div>
+          <button (click)="onUpdate(memo)">更新</button><!--onUpdateがクリックされたらcomponent.tsのonUpdateにデータを渡す memoは引数-->
+          <button (click)="onDelete(memo)">削除</button><!--onDeleteがクリックされたらcomponent.tsのonUpdateにデータを渡す memoは引数-->
+          <mat-checkbox class="example-margin">重要</mat-checkbox>
+        </mat-list-item>
+        <button (click)="onNext()">次へ</button>
+        {{count}}
+        <button (click)="onPrev()">戻る</button>
+      </mat-list>
     </div>
-  </div>
+  </mat-card>
+
 
 </mat-drawer-container>
+
 
 <!--
 <ol>

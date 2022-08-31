@@ -17,6 +17,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {DialogPageComponent} from './dialogpage/dialogpage.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {ErrorDialogComponent} from "./error.dialog/error.dialog.component";
+import {MatCardModule} from "@angular/material/card";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({ //@NgModuleはmodelとmodelの間を繋ぐときに使用する
   declarations: [//会社の大きい組織表　社長室的な　//componentを入れておく
@@ -38,7 +40,9 @@ import {ErrorDialogComponent} from "./error.dialog/error.dialog.component";
     MatInputModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCardModule,
+    MatListModule
   ],
   providers: [MemoService],　//組織を繋ぐもの
   bootstrap: [AppComponent] //社長室

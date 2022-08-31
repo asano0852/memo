@@ -15,11 +15,34 @@ export class MemoService {//exportすると他のファイルから見えるよ�
     //HttpClientはconstructorのパラメータ部分に入れれば自動的に使えるようになる
   }
 
-//serviceはネットワーク（http）　ネットワークはサーバーとクライアントを繋ぐもの
-  public get(query: any, callback: (result: any) => void): void {
+
+  public count(query: any, callback: (result: any) => void): void {
     const query_string: string = JSON.stringify(query);   //ストリングファイ：JavaScript のオブジェクトや値を JSON 文字列に変換する。
     const query_string_encoded: string = encodeURIComponent(query_string); //エンコード：URLに変換できない文字（例：/）等を含まないようにする
-    this.http.get("/memo/list/" + query_string_encoded,).subscribe({//URLと、リクエストの設定をするためのオブジェクトの二つの引数を取れる
+
+    this.http.get(" /memo/count/" + query_string_encoded).subscribe({//URLと、リクエストの設定をするためのオブジェクトの二つの引数を取れる
+        next: (result: any) => {//nextに実行したい処理を書く　//query_string_encodedにエンコードされたものが入る→サーバーに渡す
+          callback(result); //serviceのresからjson形式のファイルが渡ってきたら結果をcomponent.tsへ渡す
+        },
+        error: (error: any) => {//errorにエラー時の処理を書く
+          callback({status: {success: false, db: null, server: null, net: error, client: null}, data: null});　//serverでerrorになっている
+        },
+        complete: () => {
+        },
+      }
+    );
+  }
+
+  // {skip:number, limit:number, sort:any}
+//serviceはネットワーク（http）　ネットワークはサーバーとクライアントを繋ぐもの
+  public get(query: any, option: { skip: number, limit: number, sort: any }, callback: (result: any) => void): void {
+    const query_string: string = JSON.stringify(query);   //ストリングファイ：JavaScript のオブジェクトや値を JSON 文字列に変換する。
+    const query_string_encoded: string = encodeURIComponent(query_string); //エンコード：URLに変換できない文字（例：/）等を含まないようにする
+
+    const option_string: string = JSON.stringify(option);   //ストリングファイ：JavaScript のオブジェクトや値を JSON 文字列に変換する。
+    const option_string_encoded: string = encodeURIComponent(option_string); //エンコード：URLに変換できない文字（例：/）等を含まないようにする
+
+    this.http.get("/memo/list/" + query_string_encoded + "/" + option_string_encoded).subscribe({//URLと、リクエストの設定をするためのオブジェクトの二つの引数を取れる
         next: (result: any) => {//nextに実行したい処理を書く　//query_string_encodedにエンコードされたものが入る→サーバーに渡す
           callback(result); //serviceのresからjson形式のファイルが渡ってきたら結果をcomponent.tsへ渡す
         },

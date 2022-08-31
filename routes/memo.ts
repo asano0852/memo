@@ -4,15 +4,36 @@ var router = express.Router();  //expressのrouterにあるget post 等を使用
 const memoController = require("./memo_controller")//Mongodb側　いわゆるmodule.exports（export classされたやつ)を読み込む
 const controller = new memoController();　//newでインスタンス化している
 
-//MongoDB上からデータを受け取る
-//　.get('/', function (req, res)の形
-router.get('/memo/list/:query',//serviceからurlの形式でエンコードされたデータが送られてくる :query=query_string_encoded　//パスからパラメータを取得するには:/をつける必要がある
+
+router.get('/memo/count/:query',//serviceからurlの形式でエンコードされたデータが送られてくる :query=query_string_encoded　//パスからパラメータを取得するには:/をつける必要がある
   (req: any, res: any) => { //request 受ける側　response返す側
     try {
       const encoded_query_string: string = req.params.query; //reqには多くの情報が入っているその中のparams /:queryとqueryは同じ
       const query_string: string = decodeURIComponent(encoded_query_string); 　//デコード：エンコードしたものを元に戻す
       const query: any = JSON.parse(query_string); //デコードしたものをパースする　パースはデコードしたものを元に戻す
-      controller.find(query, (result: any) => { //memo_controller.tsのfindから値が渡ってくる
+
+      controller.count(query,(result: any) => { //memo_controller.tsのfindから値が渡ってくる
+        res.json(result);
+      })
+    } catch (error: any) {
+      res.json({status: {success: false, db: null, server: error, net: null, client: null}, data: null});
+    }
+  });
+
+//MongoDB上からデータを受け取る
+//　.get('/', function (req, res)の形
+router.get('/memo/list/:query/:option',//serviceからurlの形式でエンコードされたデータが送られてくる :query=query_string_encoded　//パスからパラメータを取得するには:/をつける必要がある
+  (req: any, res: any) => { //request 受ける側　response返す側
+    try {
+      const encoded_query_string: string = req.params.query; //reqには多くの情報が入っているその中のparams /:queryとqueryは同じ
+      const query_string: string = decodeURIComponent(encoded_query_string); 　//デコード：エンコードしたものを元に戻す
+      const query: any = JSON.parse(query_string); //デコードしたものをパースする　パースはデコードしたものを元に戻す
+
+      const encoded_option_string: string = req.params.option; //reqには多くの情報が入っているその中のparams /:queryとqueryは同じ
+      const option_string: string = decodeURIComponent(encoded_option_string); 　//デコード：エンコードしたものを元に戻す
+      const option: {skip:number, limit:number, sort:any} = JSON.parse(option_string); //デコードしたものをパースする　パースはデコードしたものを元に戻す
+
+      controller.find(query, option,(result: any) => { //memo_controller.tsのfindから値が渡ってくる
         res.json(result);
       })
     } catch (error: any) {
