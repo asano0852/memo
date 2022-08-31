@@ -11,7 +11,7 @@ import {ErrorDialogComponent} from "./error.dialog/error.dialog.component";
 })
 export class AppComponent implements OnInit {
   public memo_list: any[] = [];　//any[]は配列の型　number[]は数値の型　// = []は配列の初期化
-  public showFiller: boolean = false;
+  public showFiller: boolean = false; //angular materialのsidenavの仕組み
   public title: string = "";
   private query: any = {};
 
@@ -22,10 +22,10 @@ export class AppComponent implements OnInit {
 
   private draw(): void {
     this.memo.get(this.query, (result) => {
-      if (result.status.success) {
+      if (result.status.success) {////todo:trueならsuccessまで見える？statusのsuccessがtrueならこっち
         this.memo_list = result.data;//結果がserviceから渡ってくる上を見るとmemo_listは配列型になってるので数分表示される
       } else {
-        this.onError(result.status);
+        this.onError(result.status);//todo:falseならsuccessまで見えない？statusのsuccessがfalseならこっち
       }
     })
   }
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
   }
 
   public onUpdate(memo: any): void {
-    this.memo.get({_id: memo._id}, (result) => {
+    this.memo.get({_id: memo._id}, (result:any) => {
       if (result.status.success) {
         if (result.data.length === 1) {
           const dialogRef = this.dialog.open(DialogPageComponent, {　//dialogがひらくdialog.htmlを確認する

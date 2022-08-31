@@ -18,11 +18,11 @@ let Memo = mongoose.model('memo', MemoScheme);  //Mongodb上のmemoの中にmemo
 //memo_controller.tsはMongodbの機能をまとめたもの
 class MemoController {　//exportは不要　理由はcommon.jsの型だから
 
-  public find(query: any, callback: (result: any) => void): void {
+  public find(query: any, callback: (result: any) => void): void {//memo.tsのfindから飛んでくる
     Memo.find(query).then((result: any) => { //Mongodb上のmemosからリストデータを取る
       callback({status: {success: true}, data: result});
-    }).catch((error: any) => {
-      callback({status: {success: false, db: error, server: null, net: null, client: null}, data: null});
+    }).catch((error: any) => {　//mongodb上でエラーが起こっていたらこちらにくる
+      callback({status: {success: false, db: error, server: null, net: null, client: null}/*ここまでstatusの型　この塊で移動する*/, data: null});
     })
   }
 

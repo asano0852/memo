@@ -14,17 +14,17 @@
 
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
-    <p>Auto-resizing sidenav</p>
+    <p>Auto-resizing sidenav</p>    <!--buttonの部分はangular materialのsidenaviの仕組み部分-->
     <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p><!--ダイアログの操作-->
     <button (click)="showFiller = !showFiller" mat-raised-button> <!--ダイアログの操作-->
       Toggle extra text
     </button>
 
     <mat-form-field appearance="fill">
-      <mat-label>title</mat-label>
+      <mat-label>titleを入れてください</mat-label> <!--ラベルの中に初期から記載されている半透明の部分-->
       <input matInput [(ngModel)]="title">   <!--[(ngModel)]　angularで使われる[()]に入っているもののデータの受け渡しができる(双方向バインディング)  -->
     </mat-form-field>
-    <button (click)="onFind()">Find</button>
+    <button (click)="onFind()">Find</button><!--compornent.tsのonFind()が起動する-->
 
   </mat-drawer>
 
