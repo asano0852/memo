@@ -18,13 +18,13 @@ import {DialogPageComponent} from './dialogpage/dialogpage.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {ErrorDialogComponent} from "./error.dialog/error.dialog.component";
 
-@NgModule({
-  declarations: [
+@NgModule({ //@NgModuleはmodelとmodelの間を繋ぐときに使用する
+  declarations: [//会社の大きい組織表　社長室的な　//componentを入れておく
     AppComponent,
     DialogPageComponent,
     ErrorDialogComponent
   ],
-  imports: [
+  imports: [　//会社の部署　　◯◯部　　//moduleを入れておく
     CommonModule,
     BrowserModule,
     HttpClientModule,//HTTPサービスの有効化 httpをどこでも使用できるようにする
@@ -40,7 +40,7 @@ import {ErrorDialogComponent} from "./error.dialog/error.dialog.component";
     MatButtonModule,
     MatDialogModule
   ],
-  providers: [MemoService],
-  bootstrap: [AppComponent]
+  providers: [MemoService],　//組織を繋ぐもの
+  bootstrap: [AppComponent] //社長室
 })
-export class AppModule { }
+export class AppModule {}

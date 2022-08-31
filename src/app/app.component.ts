@@ -1,31 +1,32 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {MemoService} from "./memo.service";　//memo.service.tsとESmoduleとして繋がっている
 import {MatDialog} from '@angular/material/dialog';
 import {DialogPageComponent} from "./dialogpage/dialogpage.component";
 import {ErrorDialogComponent} from "./error.dialog/error.dialog.component";
 
-@Component({
+//@◯◯◯◯◯◯◯◯とexportの間にはプログラムを書いてはいけない　二つでセットになっている
+@Component({//@Componentはconstructorでnewされたとき複数生成することが可能である
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit {// implementsは免許(jis規格)みたいなもの。implements OnInit　と書くことでこの中でOnInitを使うことを宣言している
   public memo_list: any[] = [];　//any[]は配列の型　number[]は数値の型　// = []は配列の初期化
   public showFiller: boolean = false; //angular materialのsidenavの仕組み
   public title: string = "";
   private query: any = {};
 
-  //constructorとngOnInitの違い constructorはtypescriptの言語でngOnInitは画面
-
+  //constructorとngOnInitの違い constructorはTypescriptの言語である。ngOnInitは画面でありクライアントの画面が表示されたときに最初に実行するもの
+　//constructorの中に入れたらangularが自動的にnewしてくれるconstructor(public memo: MemoService) { const a = new memo}になっているのと同義
   constructor(public memo: MemoService, public dialog: MatDialog) { //typescriptの言語 Newした時実行されるもの
   }
 
   private draw(): void {
     this.memo.get(this.query, (result) => {
-      if (result.status.success) {////todo:trueならsuccessまで見える？statusのsuccessがtrueならこっち
+      if (result.status.success) {////todo:successを見たときにtrueならこちらの値が返る trueの判定？
         this.memo_list = result.data;//結果がserviceから渡ってくる上を見るとmemo_listは配列型になってるので数分表示される
       } else {
-        this.onError(result.status);//todo:falseならsuccessまで見えない？statusのsuccessがfalseならこっち
+        this.onError(result.status);//todo:successがfalseの時はこちらの値が返る
       }
     })
   }

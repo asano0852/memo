@@ -15,7 +15,7 @@ export class ErrorDialogComponent { //export classの書き方はESmoduleの書�
   ) {
   }
 
-  ngOnInit() {　//クライアントを起動したら起動するもの //messageのエラーはそれぞれ違う　たまたま名前一緒なだけ
+  ngOnInit() {　//クライアントを起動したら起動するもの　//messageのエラーはそれぞれ違う　たまたま名前一緒なだけ
     if (this.data.db) {
       this.message = "DB Error : " + this.data.db.message;
     }
@@ -30,7 +30,7 @@ export class ErrorDialogComponent { //export classの書き方はESmoduleの書�
     }
   }
 
-  onNoClick(): void {
+  onNoClick(): void {　//ダイアログを閉じる処理
     this.dialogRef.close();
   }
 }

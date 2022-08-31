@@ -1,4 +1,4 @@
-import { Component,Inject} from '@angular/core';
+import {Component,Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
@@ -11,7 +11,7 @@ export class DialogPageComponent { //export classの書き方はESmoduleの書�
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  onNoClick(): void {
+  onNoClick(): void {　//ダイアログを閉じる処理
     this.dialogRef.close();
   }
 }

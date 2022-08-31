@@ -3,12 +3,11 @@ import {HttpClient} from "@angular/common/http"; //hpptプロトコルを使用�
 import {Injectable} from '@angular/core';
 
 //serviceはシステムに一つあればいい@InjectableはAngularのこと
-@Injectable({//serviceの中身。providedIn:'root'はおまじないみたいなもの(デフォルトで書かれている)
-  providedIn: 'root'
+@Injectable({//@Injectableはangular内で一つしか存在しない　service(ネットワーク)について書く constractorでnewされたとき一つしか生成されない
+  providedIn: 'root'//serviceの中身。providedIn:'root'はおまじないみたいなもの(デフォルトで書かれている)
 })
-
 export class MemoService {//exportすると他のファイルから見えるようになる
-
+//todo:constructorはnewしたときに作動する？
   constructor(public http: HttpClient) {//HttpClientはクラス(設計図)でhttp:HttpClientとすることでインスタンスにして
     //使用できるようにする
     //constructorはnewしたときに初めに読み取られるもの
