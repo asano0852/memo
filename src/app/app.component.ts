@@ -25,11 +25,11 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
   private draw(): void {
     try {
 
-      this.memo.count(this.query, (result) => {
-        if (result.status.success) {////todo:successを見たときにtrueならこちらの値が返る trueの判定？
+      this.memo.count(this.query, (result) => {//if文は条件式がtrueであれば処理が実行され、falseであれば実行されない
+        if (result.status.success) {//successを見たときにtrueならこちらの値が返る console.logで見るとresult.status.success=trueになっている
           this.count = result.data;
           this.memo.get(this.query, this.option, (result) => {
-            if (result.status.success) {////todo:successを見たときにtrueならこちらの値が返る trueの判定？
+            if (result.status.success) {//successを見たときにtrueならこちらの値が返る
               this.memo_list = result.data;//結果がserviceから渡ってくる上を見るとmemo_listは配列型になってるので数分表示される
             } else {
               this.onError(result.status);//todo:successがfalseの時はこちらの値が返る

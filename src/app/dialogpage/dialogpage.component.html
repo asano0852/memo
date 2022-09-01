@@ -26,5 +26,7 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button> <!--dataに上４つのフィールドの値が入る→ダイアログページを閉じる-->
+  <button mat-button (click)="onSucsess()" cdkFocusInitial>Ok</button> <!--dataに上４つのフィールドの値が入る→ダイアログページを閉じる-->
+
+  <!-- <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button> --> <!--dataに上４つのフィールドの値が入る→ダイアログページを閉じる-->
 </div>

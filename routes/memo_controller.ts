@@ -8,7 +8,7 @@ const MemoScheme = new Schema({  //SchemaからMemoSchemeのインスタンス�
   create: Date,
   update:Date,
   title: String, //各項目に入る型を指定する
-  price: String, //StringのSが大文字なのはmongooseの型定義の仕方　typescriptではない
+  price: Number, //StringのSが大文字なのはmongooseの型定義の仕方　typescriptではない
   url: String
 });
 
