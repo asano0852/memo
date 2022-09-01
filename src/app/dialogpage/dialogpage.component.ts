@@ -18,7 +18,7 @@ export class DialogPageComponent { //export classの書き方はESmoduleの書�
 
   public onSucsess(): void {　//ダイアログを閉じる処理
     const price: number = Number(this.data.price);
-    if (!isNaN(price)) {
+    if (!isNaN(price)) {//数字が入った場合isNaNじゃない場合
         this.data.price = price;
         this.dialogRef.close(this.data);
     }
