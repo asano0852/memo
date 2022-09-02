@@ -21,11 +21,11 @@
     </button>
 
     <mat-form-field appearance="fill">
-      <mat-label>title</mat-label>
+      <mat-label>検索名</mat-label>
       <input matInput [(ngModel)]="query.title.$regex">
     </mat-form-field>
     <button (click)="onFindByTitle()">Search</button>
-    <button (click)="query.title.$regex='';onFindByTitle()">Reset</button>
+    <button (click)="query.title.$regex='';onFindByTitle()">Reset</button> <!--search→"query.title.$regex"直接代入に変更-->
   </mat-drawer>
 
   <mat-card fxFill>

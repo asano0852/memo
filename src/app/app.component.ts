@@ -16,8 +16,9 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
   public title: string = "";
   public count: number = 0;
   public query: any = { title: { $regex: "" } };
+  //public search:string = "";
 
-  private option: { skip: number, limit: number, sort: any } = {skip: 0, limit: 10, sort: {}};
+  private option: { skip: number, limit: number, sort: any } = {skip: 0, limit: 10, sort: {}}; //skipは初めの表示数、limitは何ページずつ送っていくか
 
 
   //constructorとngOnInitの違い constructorはTypescriptの言語である。ngOnInitは画面でありクライアントの画面が表示されたときに最初に実行するもの
@@ -121,7 +122,7 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
     }
   }
 
-  public onFindByTitle() {
+  public onFindByTitle(/*serch:string*/) {
    // this.query.title.$regex = this.search;
     this.draw();　//サーバーから最新のデータを取ってくる
   }
