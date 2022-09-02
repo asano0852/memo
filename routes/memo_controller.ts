@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;    //Schemaはどのようなデータを格納�
 
 const MemoScheme = new Schema({  //SchemaからMemoSchemeのインスタンスを作成する
   create: Date,
-  update:Date,
+  update: Date,
+  type: Number,
   title: String, //各項目に入る型を指定する
   price: Number, //StringのSが大文字なのはmongooseの型定義の仕方　typescriptではない
   url: String

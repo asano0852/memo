@@ -14,9 +14,12 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
   public memo_list: any[] = [];　//any[]は配列の型　number[]は数値の型　// = []は配列の初期化
   public showFiller: boolean = false; //angular materialのsidenavの仕組み
   public title: string = "";
-  public count:number = 0;
-  private query: any = {};
+  public count: number = 0;
+  public query: any = { title: { $regex: "" } };
+
   private option: { skip: number, limit: number, sort: any } = {skip: 0, limit: 10, sort: {}};
+
+
   //constructorとngOnInitの違い constructorはTypescriptの言語である。ngOnInitは画面でありクライアントの画面が表示されたときに最初に実行するもの
   //constructorの中に入れたらangularが自動的にnewしてくれるconstructor(public memo: MemoService) { const a = new memo}になっているのと同義
   constructor(public memo: MemoService, public dialog: MatDialog) { //typescriptの言語 Newした時実行されるもの
@@ -24,7 +27,6 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
 
   private draw(): void {
     try {
-
       this.memo.count(this.query, (result) => {//if文は条件式がtrueであれば処理が実行され、falseであれば実行されない
         if (result.status.success) {//successを見たときにtrueならこちらの値が返る console.logで見るとresult.status.success=trueになっている
           this.count = result.data;
@@ -63,17 +65,18 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
     try {
       const dialogRef = this.dialog.open(DialogPageComponent, {　//ダイアログがひらく
         width: '250px',
-        data: {type: "1", title: "", price: "", url: ""}　//初期値
+        data: {type: "", title: "", price: "", url: ""}　//初期値
       });
-
       dialogRef.afterClosed().subscribe((result) => {　//ダイアログを閉じて以下を実行する
-        this.memo.create(result, (result) => {
-          if (result.status.success) {
-            this.draw();//リストにデータを追加する
-          } else {
-            this.onError(result.status);
-          }
-        })
+        if (result) {
+          this.memo.create(result, (result) => {
+            if (result.status.success) {
+              this.draw();//リストにデータを追加する
+            } else {
+              this.onError(result.status);
+            }
+          })
+        }
       });
     } catch (error) {
       this.onError({success: false, db: null, server: null, net: null, client: error});
@@ -89,7 +92,6 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
               width: '250px',
               data: result.data[0]
             });
-
             dialogRef.afterClosed().subscribe((result) => {　//ダイアログを閉じて以下を実行する
               this.memo.update(memo._id, result, (result) => {　//リストを取ってきてserviceにデータを渡す
                 this.draw();//データをgetしている
@@ -119,9 +121,11 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
     }
   }
 
-  public onFind() {
+  public onFindByTitle() {
+   // this.query.title.$regex = this.search;
     this.draw();　//サーバーから最新のデータを取ってくる
   }
+
 
   onNext() {
     if ((this.option.skip + this.option.limit) < this.count) {
