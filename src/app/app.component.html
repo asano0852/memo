@@ -20,10 +20,16 @@
       Toggle extra text
     </button>
 
-    <mat-form-field appearance="fill">
-      <mat-label>検索名</mat-label>
-      <input matInput [(ngModel)]="query.title.$regex">
-    </mat-form-field>
+    <form #form="ngForm" novalidate>
+      <mat-form-field appearance="fill">
+        <mat-label>検索名</mat-label>
+        <input matInput type="text" #nickname="ngModel" [(ngModel)]="query.title.$regex" minlength="2" maxlength="100" required> <!--#nickname="ngModel"は呪文　mmaxlengthに書いた数値が最大数となりそれ以上記入することはできない-->
+        <mat-hint>100字まで</mat-hint>
+        <mat-error *ngIf="nickname.errors?.['required']">必須です。</mat-error>
+        <mat-error *ngIf="nickname.errors?.['minlength']">短すぎます</mat-error>
+      </mat-form-field>
+    </form>
+
     <button (click)="onFindByTitle()">Search</button>
     <button (click)="query.title.$regex='';onFindByTitle()">Reset</button> <!--search→"query.title.$regex"直接代入に変更-->
   </mat-drawer>

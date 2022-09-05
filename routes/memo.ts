@@ -4,7 +4,6 @@ var router = express.Router();  //expressのrouterにあるget post 等を使用
 const memoController = require("./memo_controller")//Mongodb側　いわゆるmodule.exports（export classされたやつ)を読み込む
 const controller = new memoController();　//newでインスタンス化している
 
-
 router.get('/memo/count/:query',//serviceからurlの形式でエンコードされたデータが送られてくる :query=query_string_encoded　//パスからパラメータを取得するには:/をつける必要がある
   (req: any, res: any) => { //request 受ける側　response返す側
     try {
@@ -16,7 +15,7 @@ router.get('/memo/count/:query',//serviceからurlの形式でエンコードさ
         res.json(result);
       })
     } catch (error: any) {
-      res.json({status: {success: false, db: null, server: error, net: null, client: null}, data: null});
+      res.json(controller.error(2, error));
     }
   });
 
@@ -37,7 +36,7 @@ router.get('/memo/list/:query/:option',//serviceからurlの形式でエンコ�
         res.json(result);
       })
     } catch (error: any) {
-      res.json({status: {success: false, db: null, server: error, net: null, client: null}, data: null});
+      res.json(controller.error(2, error));
     }
   });
 

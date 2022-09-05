@@ -11,26 +11,27 @@ export class ErrorDialogComponent { //export classの書き方はESmoduleの書�
 
   constructor(
     public dialogRef: MatDialogRef<ErrorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { success: boolean, db: any, server: any, net: any, client: any } //最終的にここにエラーが渡ってきて型チェックをする
+    @Inject(MAT_DIALOG_DATA) public data: {status:{ success: boolean, db: any, server: any, net: any, client: any }} //最終的にここにエラーが渡ってきて型チェックをする
   ) {
   }
 
   ngOnInit() {　//クライアントを起動したら起動するもの　//messageのエラーはそれぞれ違う　たまたま名前一緒なだけ
-    if (this.data.db) {
-      this.message = "DB Error : " + this.data.db.message;
+    const status: any = this.data.status;
+    if (status.db) {
+      this.message = "DB Error : " + status.db.message;
     }
-    if (this.data.server) {
-      this.message = "Server Error : " + this.data.server.message;
+    if (status.server) {
+      this.message = "Server Error : " + status.server.message;
     }
-    if (this.data.net) {
-      this.message = "Network Error : " + this.data.net.message;
+    if (status.net) {
+      this.message = "Network Error : " + status.net.message;
     }
-    if (this.data.client) {
-      this.message = "Client Error : " + this.data.client.message;
+    if (status.client) {
+      this.message = "Client Error : " + status.client.message;
     }
   }
 
-  onNoClick(): void {　//ダイアログを閉じる処理
+  public onNoClick(): void {　//ダイアログを閉じる処理
     this.dialogRef.close();
   }
 }

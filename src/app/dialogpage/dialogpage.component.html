@@ -1,26 +1,39 @@
 <h1 mat-dialog-title></h1>
 <div mat-dialog-content>
   <p>scraping</p>
-
   <!--[(ngModel)]はサーバーが更新されたらクライアントも更新される-->
+
+  <!---->
   <mat-form-field appearance="fill">
     <mat-label>type</mat-label>
-    <input matInput [(ngModel)]="data.type">
+    <input matInput type="number" #nickname="ngModel" [(ngModel)]="data.type" minlength="1" maxlength="10" required>
+    <mat-hint>タイプ(数値)を入れてください</mat-hint>
+    <mat-error *ngIf="nickname.errors?.['required']">必須です。</mat-error>
+    <mat-error *ngIf="nickname.errors?.['minlength']">短すぎます</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>title</mat-label>
-    <input matInput [(ngModel)]="data.title">
+    <input matInput type="text" #nickname="ngModel" [(ngModel)]="data.title" minlength="1" maxlength="100" required>
+    <mat-hint>100字まで</mat-hint>
+    <mat-error *ngIf="nickname.errors?.['required']">必須です。</mat-error>
+    <mat-error *ngIf="nickname.errors?.['minlength']">短すぎます</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>price</mat-label>
-    <input matInput [(ngModel)]="data.price">
+    <input matInput type="number" #nickname="ngModel" [(ngModel)]="data.price" minlength="1" maxlength="30" required>
+    <mat-hint>金額を入れてください</mat-hint>
+    <mat-error *ngIf="nickname.errors?.['required']">必須です。</mat-error>
+    <mat-error *ngIf="nickname.errors?.['minlength']">短すぎます</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>url</mat-label>
-    <input matInput [(ngModel)]="data.url">
+    <input matInput matInput type="text" #nickname="ngModel" [(ngModel)]="data.url" minlength="2" maxlength="1000" required>
+    <mat-hint>urlを入れてください</mat-hint>
+    <mat-error *ngIf="nickname.errors?.['required']">必須です。</mat-error>
+    <mat-error *ngIf="nickname.errors?.['minlength']">短すぎます</mat-error>
   </mat-form-field>
 
 </div>
@@ -28,7 +41,8 @@
 <div mat-dialog-actions>
 
   <button mat-button (click)="onClose()">No Thanks</button>
-  <button mat-button (click)="onSuccess()" >Ok</button> <!--dataに上４つのフィールドの値が入る→ダイアログページを閉じる-->
+  <button mat-button (click)="onSuccess()">Ok</button> <!--dataに上４つのフィールドの値が入る→ダイアログページを閉じる-->
 
-  <!-- <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button> --> <!--dataに上４つのフィールドの値が入る→ダイアログページを閉じる-->
+  <!-- <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button> -->
+  <!--dataに上４つのフィールドの値が入る→ダイアログページを閉じる-->
 </div>

@@ -15,6 +15,25 @@ export class MemoService {//exportすると他のファイルから見えるよ�
     //HttpClientはconstructorのパラメータ部分に入れれば自動的に使えるようになる
   }
 
+  public error(error_type: number, error: any): any {
+    let _result: any = {status: {success: false, db: null, server: null, net: null, client: null}};
+    switch (error_type) {
+      case 1:
+        _result.success.db = error;
+        break;
+      case 2:
+        _result.success.server = error;
+        break;
+      case 3:
+        _result.success.net = error;
+        break;
+      case 4:
+        _result.success.client = error;
+        break;
+      default:
+    }
+    return _result;
+  }
 
   public count(query: any, callback: (result: any) => void): void {
     const query_string: string = JSON.stringify(query);   //ストリングファイ：JavaScript のオブジェクトや値を JSON 文字列に変換する。
@@ -25,7 +44,7 @@ export class MemoService {//exportすると他のファイルから見えるよ�
           callback(result); //serviceのresからjson形式のファイルが渡ってきたら結果をcomponent.tsへ渡す
         },
         error: (error: any) => {//errorにエラー時の処理を書く
-          callback({status: {success: false, db: null, server: null, net: error, client: null}, data: null});　//serverでerrorになっている
+          callback(this.error(3,error));　//serverでerrorになっている
         },
         complete: () => {
         },
@@ -47,7 +66,7 @@ export class MemoService {//exportすると他のファイルから見えるよ�
           callback(result); //serviceのresからjson形式のファイルが渡ってきたら結果をcomponent.tsへ渡す
         },
         error: (error: any) => {//errorにエラー時の処理を書く
-          callback({status: {success: false, db: null, server: null, net: error, client: null}, data: null});　//serverでerrorになっている
+          callback(this.error(3,error));　//serverでerrorになっている
         },
         complete: () => {
         },
@@ -61,7 +80,7 @@ export class MemoService {//exportすると他のファイルから見えるよ�
           callback(result); //memo.tsからの結果をcomponent.tsに渡す
         },
         error: (error: any) => {//errorにエラー時の処理を書く
-          callback({status: {success: false, db: null, server: null, net: error, client: null}, data: null}); //serverでerrorになっている
+          callback(this.error(3,error)); //serverでerrorになっている
         },
         complete: () => {
         },
@@ -75,7 +94,7 @@ export class MemoService {//exportすると他のファイルから見えるよ�
           callback(result);
         },
         error: (error: any) => {//errorにエラー時の処理を書く
-          callback({status: {success: false, db: null, server: null, net: error, client: null}, data: null});　//serverでerrorになっている
+          callback(this.error(3,error));　//serverでerrorになっている
         },
         complete: () => {
         },
@@ -90,7 +109,7 @@ export class MemoService {//exportすると他のファイルから見えるよ�
         callback(result);
       },
       error: (error: any) => {//errorにエラー時の処理を書く
-        callback({status: {success: false, db: null, server: null, net: error, client: null}, data: null});//serverでerrorになっている
+        callback(this.error(3,error));//serverでerrorになっている
       },
       complete: () => {
       },

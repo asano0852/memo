@@ -16,10 +16,10 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
   public title: string = "";
   public count: number = 0;
   public query: any = { title: { $regex: "" } };
+
   //public search:string = "";
 
   private option: { skip: number, limit: number, sort: any } = {skip: 0, limit: 10, sort: {}}; //skipは初めの表示数、limitは何ページずつ送っていくか
-
 
   //constructorとngOnInitの違い constructorはTypescriptの言語である。ngOnInitは画面でありクライアントの画面が表示されたときに最初に実行するもの
   //constructorの中に入れたらangularが自動的にnewしてくれるconstructor(public memo: MemoService) { const a = new memo}になっているのと同義
@@ -35,15 +35,15 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
             if (result.status.success) {//successを見たときにtrueならこちらの値が返る
               this.memo_list = result.data;//結果がserviceから渡ってくる上を見るとmemo_listは配列型になってるので数分表示される
             } else {
-              this.onError(result.status);//todo:successがfalseの時はこちらの値が返る
+              this.onError(result);//todo:successがfalseの時はこちらの値が返る
             }
           })
         } else {
-          this.onError(result.status);//todo:successがfalseの時はこちらの値が返る
+          this.onError(result);//todo:successがfalseの時はこちらの値が返る
         }
       })
     } catch (error) {
-      this.onError({success: false, db: null, server: null, net: null, client: error});
+      this.onError(this.memo.error(4, error));
     }
   }
 
@@ -74,13 +74,13 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
             if (result.status.success) {
               this.draw();//リストにデータを追加する
             } else {
-              this.onError(result.status);
+              this.onError(result);
             }
           })
         }
       });
     } catch (error) {
-      this.onError({success: false, db: null, server: null, net: null, client: error});
+      this.onError(this.memo.error(4, error));
     }
   }
 
@@ -100,11 +100,11 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
             });
           }
         } else {
-          this.onError(result.status);
+          this.onError(result);
         }
       })
     } catch (error) {
-      this.onError({success: false, db: null, server: null, net: null, client: error});
+      this.onError(this.memo.error(4, error));
     }
   }
 
@@ -114,11 +114,11 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
         if (result.status.success) {
           this.draw();　//データをgetしている
         } else {
-          this.onError(result.status);
+          this.onError(result);
         }
       })
     } catch (error) {
-      this.onError({success: false, db: null, server: null, net: null, client: error});
+      this.onError(this.memo.error(4, error));
     }
   }
 
@@ -126,7 +126,6 @@ export class AppComponent implements OnInit {// implementsは免許(jis規格)�
    // this.query.title.$regex = this.search;
     this.draw();　//サーバーから最新のデータを取ってくる
   }
-
 
   onNext() {
     if ((this.option.skip + this.option.limit) < this.count) {
